@@ -1,4 +1,4 @@
-package pro.sky.coursework2.entity;
+package pro.sky.coursework2.model;
 
 
 import java.util.Objects;
@@ -43,9 +43,6 @@ public class Question {
 
     @Override
     public String toString() {
-        return "Question{" +
-                "question='" + question + '\'' +
-                ", answer='" + answer + '\'' +
-                '}';
+        return String.format("Вопрос: %s, ответ: %s", question, answer);
     }
 }
