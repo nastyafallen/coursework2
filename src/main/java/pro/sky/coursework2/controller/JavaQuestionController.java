@@ -3,13 +3,13 @@ package pro.sky.coursework2.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pro.sky.coursework2.entity.Question;
+import pro.sky.coursework2.model.Question;
 import pro.sky.coursework2.service.QuestionService;
 
 import java.util.Collection;
 
 @RestController
-@RequestMapping("/exam/java")
+@RequestMapping("/java")
 public class JavaQuestionController {
     private final QuestionService questionService;
 
@@ -18,7 +18,8 @@ public class JavaQuestionController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Question> addQuestion(@RequestParam String question, @RequestParam String answer) {
+    public ResponseEntity<Question> addQuestion(@RequestParam String question,
+                                                @RequestParam String answer) {
         return ResponseEntity.status(HttpStatus.ACCEPTED)
                 .body(questionService.add(question, answer));
     }
@@ -29,7 +30,8 @@ public class JavaQuestionController {
     }
 
     @DeleteMapping("/remove")
-    public ResponseEntity<Question> removeQuestion(@RequestParam String question, @RequestParam String answer) {
-        return ResponseEntity.ok(questionService.remove(question, answer));
+    public ResponseEntity<Question> removeQuestion(@RequestParam String question,
+                                                   @RequestParam String answer) {
+        return ResponseEntity.ok(questionService.remove(new Question(question, answer)));
     }
 }
