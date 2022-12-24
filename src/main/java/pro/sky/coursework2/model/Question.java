@@ -1,9 +1,10 @@
 package pro.sky.coursework2.model;
 
-
 import java.util.Objects;
 
 public class Question {
+
+    private Long id;
     private String question;
     private String answer;
 

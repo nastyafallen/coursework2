@@ -2,79 +2,76 @@ package pro.sky.coursework2.service;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import pro.sky.coursework2.exception.QuestionNotFoundException;
 import pro.sky.coursework2.model.Question;
-
+import pro.sky.coursework2.repository.JavaQuestionRepository;
+import pro.sky.coursework2.repository.QuestionRepository;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class JavaQuestionServiceTest {
+    @InjectMocks
+    private JavaQuestionService out;
 
-    private final QuestionService questionService = new JavaQuestionService();
+    @Mock
+    private JavaQuestionRepository repositoryMock;
+
     private final Question question = new Question("test", "test");
 
     @Test
     public void addPositiveTest1() {
-        questionService.add("test", "test");
-        assertTrue(questionService.getAll().contains(question));
+        when(repositoryMock.add(question)).thenReturn(question);
+        assertEquals(out.add(question), question);
     }
 
     @Test
     public void addPositiveTest2() {
-        questionService.add(question);
-        assertTrue(questionService.getAll().contains(question));
+        when(repositoryMock.add(any())).thenReturn(question);
+        assertEquals(out.add(new Question("test", "test")), question);
     }
 
     @Test
     public void removePositiveTest() {
-        questionService.add(question);
-        questionService.remove(question);
-        assertTrue(questionService.getAll()
-                .isEmpty());
-        assertFalse(questionService.getAll()
-                .contains(question));
+        when(repositoryMock.remove(any())).thenReturn(question);
+        assertEquals(out.remove(question), question);
     }
 
     @Test
     public void removeNegativeTest() {
+        when(repositoryMock.remove(any())).thenThrow(QuestionNotFoundException.class);
         Assertions.assertThatExceptionOfType(QuestionNotFoundException.class)
-                .isThrownBy(() -> questionService.remove(question));
+                .isThrownBy(() -> out.remove(question));
     }
 
     @Test
     public void getAllPositiveTest() {
         Question question1 = new Question("test1", "test1");
-        Question question2 = new Question("test2", "test2");
-        List<Question> result = new ArrayList<>(List.of(question1, question2));
-        questionService.add(question1);
-        questionService.add(question2);
-        questionService.add(question2);
-        questionService.add(question2);
-        assertTrue(questionService.getAll()
-                .containsAll(result));
-        Assertions.assertThat(questionService.getAll())
-                .hasSameSizeAs(result);
-        assertEquals(questionService.getAll(), result);
+        List<Question> testList = new ArrayList<>(List.of(question, question1));
+        when(repositoryMock.getAll()).thenReturn(testList);
+        assertTrue(out.getAll()
+                .containsAll(testList));
+        Assertions.assertThat(out.getAll())
+                .hasSameSizeAs(testList);
+        Assertions.assertThat(out.getAll())
+                .containsExactlyInAnyOrder(question, question1);
     }
 
     @Test
     public void getRandomQuestion() {
-        questionService.add(question);
-        List<Question> questionList = new ArrayList<>();
-        questionList.add(question);
-        assertEquals(questionService.getRandomQuestion(), questionList.get(0));
-    }
-
-    @Test
-    public void getRandomQuestion2() {
         Question question1 = new Question("test1", "test1");
-        Question question2 = new Question("test2", "test2");
-        questionService.add(question);
-        questionService.add(question1);
-        questionService.add(question2);
-        Assertions.assertThat(questionService.getRandomQuestion())
-                .isIn(questionService.getAll());
+        List<Question> testList = new ArrayList<>(List.of(question, question1));
+        when(repositoryMock.getAll()).thenReturn(testList);
+        Assertions.assertThat(out.getRandomQuestion())
+                .isIn(testList);
     }
 }

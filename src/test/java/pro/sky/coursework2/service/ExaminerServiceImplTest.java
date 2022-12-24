@@ -13,7 +13,6 @@ import pro.sky.coursework2.model.Question;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -26,20 +25,41 @@ class ExaminerServiceImplTest {
     @Mock
     private JavaQuestionService javaQuestionServiceMock;
 
-    @Test
-    void getQuestionsPositiveTest() {
-        List<Question> testList = new ArrayList<>();
-        testList.add(new Question("test1", "test1"));
-        testList.add(new Question("test2", "test2"));
-        testList.add(new Question("test3", "test3"));
-        when(javaQuestionServiceMock.getAll())
-                .thenReturn(testList);
-        when(javaQuestionServiceMock.getRandomQuestion())
-                .thenReturn(testList.get(1), testList.get(0), testList.get(0), testList.get(2), testList.get(1));
-        Assertions.assertThat(out.getQuestions(3)).containsExactlyInAnyOrder(testList.get(0), testList.get(1), testList.get(2));
-        Assertions.assertThat(out.getQuestions(1)).containsOnly(testList.get(1));
+    @Mock
+    private MathQuestionService mathQuestionServiceMock;
+
+    private List<Question> testListJava = new ArrayList<>();
+    private List<Question> testListMath = new ArrayList<>();
+    private List<Question> result;
+
+    @BeforeEach
+    public void initOut() {
+        out = new ExaminerServiceImpl(javaQuestionServiceMock, mathQuestionServiceMock);
     }
 
+    /*@Test
+    void getQuestionsPositiveTest() {
+        doBefore();
+        when(javaQuestionServiceMock.getAll())
+                .thenReturn(testListJava);
+        when(mathQuestionServiceMock.getAll())
+                .thenReturn(testListMath);
+        assertThat(out.getQuestions(3))
+                .isIn(result);
+    }
+
+    public void doBefore() {
+        testListJava.add(new Question("javaTest1", "test1"));
+        testListJava.add(new Question("javaTest2", "test2"));
+        testListJava.add(new Question("javaTest3", "test3"));
+
+        testListMath.add(new Question("mathTest1", "test1"));
+        testListMath.add(new Question("mathTest2", "test2"));
+        testListMath.add(new Question("mathTest3", "test3"));
+
+        result = new ArrayList<>(List.copyOf(testListJava));
+        result.addAll(testListMath);
+    }*/
     @Test
     void getQuestionsNegativeTest() {
         Assertions.assertThatExceptionOfType(WrongNumberException.class).isThrownBy(() -> out.getQuestions(-1));
