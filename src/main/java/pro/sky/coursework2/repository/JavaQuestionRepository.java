@@ -4,7 +4,6 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Repository;
 import pro.sky.coursework2.exception.QuestionNotFoundException;
 import pro.sky.coursework2.model.Question;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,6 +17,7 @@ public class JavaQuestionRepository implements QuestionRepository{
         this.questions = new HashSet<>();
     }
 
+    // This method initializes variable "questions" after application launch
     @PostConstruct
     public void init() {
         add(new Question("Какие два класса не наследуются от Object?", "Таких классов нет. Все классы прямо или через предков наследуются от класса Object! Кроме самого класса Object, конечно :)"));
@@ -38,6 +38,7 @@ public class JavaQuestionRepository implements QuestionRepository{
         return question;
     }
 
+    // This method will remove question from repository or will throw an exception
     @Override
     public Question remove(Question question) {
         if (!questions.contains(question)) {
@@ -47,6 +48,7 @@ public class JavaQuestionRepository implements QuestionRepository{
         return question;
     }
 
+    // This method returns copy of all java questions
     @Override
     public Collection<Question> getAll() {
         return questions

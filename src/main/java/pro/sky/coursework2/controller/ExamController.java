@@ -10,6 +10,8 @@ import pro.sky.coursework2.service.ExaminerService;
 
 import java.util.Collection;
 
+/* Endpoint for receiving set of random questions
+* from both question services - java and math */
 @RestController
 @RequestMapping
 public class ExamController {
@@ -18,6 +20,7 @@ public class ExamController {
     public ExamController(ExaminerService examinerService) {
         this.examinerService = examinerService;
     }
+
 
     @GetMapping("/get/{amount}")
     public ResponseEntity<Collection<Question>> getQuestions(@PathVariable int amount) {

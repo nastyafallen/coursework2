@@ -45,6 +45,8 @@ public class MathQuestionService implements QuestionService{
         return questionRepository.getAll();
     }
 
+    /* This method returns one random question
+     * from all math questions */
     @Override
     public Question getRandomQuestion() {
         List<Question> questionList = new ArrayList<>(List.copyOf(questionRepository.getAll()));

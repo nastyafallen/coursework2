@@ -18,6 +18,7 @@ public class MathQuestionRepository implements QuestionRepository{
         this.questions = new HashSet<>();
     }
 
+    // This method initializes variable "questions" after application launch
     @PostConstruct
     void init() {
         add(new Question("Вопрос по Math 1", "Ответ 1"));
@@ -34,6 +35,7 @@ public class MathQuestionRepository implements QuestionRepository{
         return question;
     }
 
+    // This method will remove question from repository or will throw an exception
     @Override
     public Question remove(Question question) {
         if (!questions.contains(question)) {
@@ -43,6 +45,7 @@ public class MathQuestionRepository implements QuestionRepository{
         return question;
     }
 
+    // This method returns copy of all math questions
     @Override
     public Collection<Question> getAll() {
         return questions

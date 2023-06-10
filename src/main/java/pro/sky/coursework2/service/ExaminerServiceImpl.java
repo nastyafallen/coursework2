@@ -21,6 +21,8 @@ public class ExaminerServiceImpl implements ExaminerService{
     }
 
 
+    /* This method returns set of questions from both subjects -
+    * java and math, in random proportion */
     @Override
     public Collection<Question> getQuestions(int amount) {
         if (amount <= 0 || amount > javaQuestionService.getAll().size() + mathQuestionService.getAll().size()) {
