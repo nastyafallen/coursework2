@@ -5,13 +5,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pro.sky.coursework2.entity.Question;
+import pro.sky.coursework2.model.Question;
 import pro.sky.coursework2.service.ExaminerService;
 
 import java.util.Collection;
 
+/* Endpoint for receiving set of random questions
+* from both question services - java and math */
 @RestController
-@RequestMapping("/exam/get")
+@RequestMapping
 public class ExamController {
     private final ExaminerService examinerService;
 
@@ -19,7 +21,8 @@ public class ExamController {
         this.examinerService = examinerService;
     }
 
-    @GetMapping("/{amount}")
+
+    @GetMapping("/get/{amount}")
     public ResponseEntity<Collection<Question>> getQuestions(@PathVariable int amount) {
         return ResponseEntity.ok(examinerService.getQuestions(amount));
     }

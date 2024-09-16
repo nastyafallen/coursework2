@@ -4,20 +4,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import pro.sky.coursework2.model.Question;
-import pro.sky.coursework2.repository.JavaQuestionRepository;
+import pro.sky.coursework2.repository.MathQuestionRepository;
 import pro.sky.coursework2.repository.QuestionRepository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Random;
 
 @Service
-public class JavaQuestionService implements QuestionService{
+public class MathQuestionService implements QuestionService{
 
     private final QuestionRepository questionRepository;
 
     private final Random random;
 
     @Autowired
-    public JavaQuestionService(@Qualifier("javaQuestionRepository") QuestionRepository questionRepository) {
+    public MathQuestionService(@Qualifier("mathQuestionRepository") QuestionRepository questionRepository) {
         this.questionRepository = questionRepository;
         this.random = new Random();
     }
@@ -43,7 +46,7 @@ public class JavaQuestionService implements QuestionService{
     }
 
     /* This method returns one random question
-    * from all java questions */
+     * from all math questions */
     @Override
     public Question getRandomQuestion() {
         List<Question> questionList = new ArrayList<>(List.copyOf(questionRepository.getAll()));
